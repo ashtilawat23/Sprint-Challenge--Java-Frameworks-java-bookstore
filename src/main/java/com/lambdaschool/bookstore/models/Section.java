@@ -16,25 +16,31 @@ import java.util.Set;
 public class Section
         extends Auditable
 {
+    // --------- Table Fields --------
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long sectionid;
+    private long sectionid; // primary key
 
     private String name;
 
+    // -------- Association Field ----------
     @OneToMany(mappedBy = "section")
     @JsonIgnoreProperties("section")
     private Set<Book> books = new HashSet<>();
 
+    //--------- Constructor ----------
     public Section()
     {
+        // default Constructor for JPA
     }
 
+    // constructor with parameters
     public Section(String name)
     {
         this.name = name;
     }
 
+    // --------- Getters and Setters ----------
     public long getSectionid()
     {
         return sectionid;
@@ -55,6 +61,7 @@ public class Section
         this.name = name;
     }
 
+    // --------- Association Getter and Setters -------
     public Set<Book> getBooks()
     {
         return books;
@@ -63,14 +70,5 @@ public class Section
     public void setBooks(Set<Book> books)
     {
         this.books = books;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Section{" +
-            "sectionid=" + sectionid +
-            ", name='" + name + '\'' +
-            '}';
     }
 }

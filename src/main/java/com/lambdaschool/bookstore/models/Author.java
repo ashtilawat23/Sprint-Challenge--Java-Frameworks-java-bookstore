@@ -17,24 +17,28 @@ import java.util.Set;
 public class Author
         extends Auditable
 {
+    // ---------- Table Fields ----------
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnoreProperties("authorid")
-    private long authorid;
+    private long authorid; // primary key
 
     private String fname;
     private String lname;
 
+    // ------- Association Fields ----------
     @OneToMany(mappedBy = "author",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JsonIgnoreProperties("author")
     private Set<Wrote> wrotes = new HashSet<>();
 
+    // ------ Constructors ---------
     public Author()
     {
+        // default constructor to be used with JPA
     }
-
+    // constructor with parameters
     public Author(String fname,
                   String lname)
     {
@@ -42,6 +46,7 @@ public class Author
         this.lname = lname;
     }
 
+    // ------ Getters and Setters ------
     public long getAuthorid()
     {
         return authorid;
@@ -72,6 +77,7 @@ public class Author
         this.lname = lname;
     }
 
+    // -------- Association Getters and Setters -------
     public Set<Wrote> getWrotes()
     {
         return wrotes;

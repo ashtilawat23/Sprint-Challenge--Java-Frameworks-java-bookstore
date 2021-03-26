@@ -21,9 +21,10 @@ import java.util.Set;
 public class Book
         extends Auditable
 {
+    // --------- Table Fields --------
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long bookid;
+    private long bookid; // primary key
 
     private String title;
     private String isbn;
@@ -31,21 +32,27 @@ public class Book
     public boolean hasvalueforcopy = false;
     private int copy;
 
+    // --------- Association Field ---------
+    // "Many Books can have one section"
     @ManyToOne
     @JoinColumn(name = "sectionid")
     @JsonIgnoreProperties("books")
     private Section section;
 
+    // " One Book could be written by many Authors
     @OneToMany(mappedBy = "book",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JsonIgnoreProperties("book")
     private Set<Wrote> wrotes = new HashSet<>();
 
+    // ------ Constructor --------
     public Book()
     {
+        // default constructor to be used with JPA
     }
 
+    // constructor with parameters
     public Book(String title,
                 String isbn,
                 int copy,
@@ -57,6 +64,7 @@ public class Book
         this.section = section;
     }
 
+    // -------- Getters and Setters -------
     public long getBookid()
     {
         return bookid;
@@ -98,6 +106,7 @@ public class Book
         this.copy = copy;
     }
 
+    // ------- Association Getters and Setters ------
     public Section getSection()
     {
         return section;
@@ -116,19 +125,5 @@ public class Book
     public void setWrotes(Set<Wrote> wrotes)
     {
         this.wrotes = wrotes;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Book{" +
-            "bookid=" + bookid +
-            ", title='" + title + '\'' +
-            ", isbn='" + isbn + '\'' +
-            ", hasvalueforcopy=" + hasvalueforcopy +
-            ", copy=" + copy +
-            ", section=" + section +
-            ", wrotes=" + wrotes +
-            '}';
     }
 }
